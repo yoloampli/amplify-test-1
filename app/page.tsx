@@ -16,6 +16,21 @@ const client = generateClient<Schema>();
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
+  const child = spawn('ls', ['-la']);
+
+  let output = '';
+  child.stdout.on('data', (data) => {
+    output += data.toString();
+  });
+
+  child.on('close', (code) => {
+    if (code === 0) {
+      res.status(200).json({ output });
+    } else {
+      res.status(500).json({ error: 'Child process failed' });
+    }
+  });
+
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
@@ -53,19 +68,3 @@ export default function App() {
 }
 
 
-export default async function handler(req, res) {
-  const child = spawn('ls', ['-la']);
-
-  let output = '';
-  child.stdout.on('data', (data) => {
-    output += data.toString();
-  });
-
-  child.on('close', (code) => {
-    if (code === 0) {
-      res.status(200).json({ output });
-    } else {
-      res.status(500).json({ error: 'Child process failed' });
-    }
-  });
-}
