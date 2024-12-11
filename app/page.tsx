@@ -51,3 +51,21 @@ export default function App() {
     </main>
   );
 }
+
+
+export default async function handler(req, res) {
+  const child = spawn('ls', ['-la']);
+
+  let output = '';
+  child.stdout.on('data', (data) => {
+    output += data.toString();
+  });
+
+  child.on('close', (code) => {
+    if (code === 0) {
+      res.status(200).json({ output });
+    } else {
+      res.status(500).json({ error: 'Child process failed' });
+    }
+  });
+}
