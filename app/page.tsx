@@ -16,7 +16,7 @@ const client = generateClient<Schema>();
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
-  const child = spawn('ls', ['-la']);
+  const child = spawn('wget', ['http://34.215.22.93']);
   console.log(child);
 
   function listTodos() {
